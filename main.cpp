@@ -4,32 +4,31 @@
 
 #include <iostream>
 
-bool hit_sphere(const point3& center, double rad, const ray& r) {
+double hit_sphere(const point3& center, double rad, const ray& r) {
     // if the discriminant of the formula is negative, no intersection, return false
     // otherwise return true
     double a = r.direction().length_squared();
     double b = dot(-2*r.direction(), center-r.origin());
     double c = dot(center-r.origin(), center-r.origin()) - rad*rad;
 
-    return b*b >= 4*a*c;
+    double disc = b*b - 4*a*c;
+    if (disc < 0) {
+        return -1.0;
+    } else {
+        return (-b - std::sqrt(disc))/(2.0*a);
+    }
 }
 
 color ray_color(const ray& r) {
-    if (hit_sphere(point3(-1, -1, -2), 0.5, r)) {
-        return color(1, 0, 0);
-    }
-
-    if (hit_sphere(point3(1, 1, -1), 0.3, r)) {
-        return color(0, 1, 0);
-    }
-
-    if (hit_sphere(point3(-1, 2, -5), 1, r)) {
-        return color(0, 0, 1);
+    double t = hit_sphere(point3(0, 0, -1), 0.5, r);
+    if (t > 0.0) {
+        vec3 N = unit_vector(r.at(t)-point3(0, 0, -1));
+        return 0.5*color(N.x()+1, N.y()+1, N.z()+1);
     }
     
     vec3 unit_direction = unit_vector(r.direction());
     auto a = 0.5*(unit_direction.y()+1.0);
-    return (1.0-a)*color(1, 1, 1) + a*color(0.071, 0.89, 0.922);
+    return (1.0-a)*color(1, 1, 1) + a*color(0.067, 0.576, 0.89);
 }
 
 int main() {
