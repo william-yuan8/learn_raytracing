@@ -1,3 +1,6 @@
+#include "vec3.h"
+#include "color.h"
+
 #include <iostream>
 
 // Output a simple PPM image
@@ -14,15 +17,10 @@ int main() {
     for (int i=0; i<img_height; i++) {
         std::clog << "\rRows remaining: " << (img_height-i) << " " << std::flush;
         for (int j=0; j<img_width; j++) {
-            auto r = double(j)/img_width;
-            auto g = double(i)/img_height;
-            auto b = double(std::min(i, j))/double(std::max(i, j)+1);
-
-            int ir = int(255.999*r);
-            int ig = int(255.999*g);
-            int ib = int(255.999*b);
-            
-            std::cout << ir << " " << ig << " " << ib << "\n";
+            auto pix_col = color(double(j)/img_width, 
+                                double(i)/img_height,
+                                double(std::min(i, j))/double(std::max(i, j)+1));
+            write_color(std::cout, pix_col);
         }
     }
 

@@ -9,7 +9,7 @@ class vec3 {
         double e[3];
 
         vec3() : e{0, 0, 0} {}
-        vec3(double e1, e2, e3) : e{e1, e2, e3} {}
+        vec3(double e1, double e2, double e3) : e{e1, e2, e3} {}
 
         double x() const {return e[0];}
         double y() const {return e[1];}
@@ -42,7 +42,7 @@ class vec3 {
 
         double length() const {return std::sqrt(length_squared());}
         double length_squared() const {return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];}
-}
+};
 
 using point3 = vec3;
 
@@ -70,7 +70,7 @@ inline vec3 operator*(const vec3& v, double t) {
     return t*v;
 }
 
-inline vec3 operator/(double t, const vec3& v) {
+inline vec3 operator/(const vec3& v, double t) {
     return (1/t)*v;
 }
 
