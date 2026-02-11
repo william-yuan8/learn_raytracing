@@ -14,3 +14,9 @@ Gradient based on normalized ray y-values
 ![Three spheres that demonstrates perspective](/images/ray_sphere.png)
 
 Three spheres that demonstrates perspective
+
+## Shading sphere based on normal vector
+
+![Shading sphere based on normal vector](/images/normal_shade.png)
+
+Each point on the sphere is shaded based on the vector normal to the surface (pointing outwards)
