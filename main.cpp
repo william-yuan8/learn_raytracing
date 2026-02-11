@@ -1,34 +1,17 @@
-#include "color.h"
-#include "vec3.h"
-#include "ray.h"
+#include "rtweekend.h"
+#include "hittable.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
-#include <iostream>
-
-double hit_sphere(const point3& center, double rad, const ray& r) {
-    // if the discriminant of the formula is negative, no intersection, return false
-    // otherwise return true
-    double a = r.direction().length_squared();
-    double b = dot(-2*r.direction(), center-r.origin());
-    double c = dot(center-r.origin(), center-r.origin()) - rad*rad;
-
-    double disc = b*b - 4*a*c;
-    if (disc < 0) {
-        return -1.0;
-    } else {
-        return (-b - std::sqrt(disc))/(2.0*a);
+color ray_color(const ray& r, const hittable& world) {
+    hit_record rec;
+    if (world.hit(r, 0, infinity, rec)) {
+        return 0.5*(rec.normal + color(1, 1, 1));
     }
-}
 
-color ray_color(const ray& r) {
-    double t = hit_sphere(point3(0, 0, -1), 0.5, r);
-    if (t > 0.0) {
-        vec3 N = unit_vector(r.at(t)-point3(0, 0, -1));
-        return 0.5*color(N.x()+1, N.y()+1, N.z()+1);
-    }
-    
     vec3 unit_direction = unit_vector(r.direction());
-    auto a = 0.5*(unit_direction.y()+1.0);
-    return (1.0-a)*color(1, 1, 1) + a*color(0.067, 0.576, 0.89);
+    auto a = 0.5*(unit_direction.y() + 1.0);
+    return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
 }
 
 int main() {
@@ -38,6 +21,12 @@ int main() {
 
     int image_height = int(image_width/aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
+
+    // World
+
+    hittable_list world;
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     // Camera
     auto focal_length = 1.0;
@@ -57,8 +46,6 @@ int main() {
     auto vp_ul = camera_center - vp_u/2 - vp_v/2 - vec3(0, 0, focal_length);
     auto pixel00_loc = vp_ul + 0.5 * (pixel_du + pixel_dv);
 
-    // Specify image width and height
-
     // Render
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n"; 
 
@@ -70,7 +57,7 @@ int main() {
             auto ray_direction = pixel_center - camera_center;
             ray r(camera_center, ray_direction);
 
-            color pixel_color = ray_color(r);
+            color pixel_color = ray_color(r, world);
             write_color(std::cout, pixel_color);
         }
     }
