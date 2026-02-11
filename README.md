@@ -20,3 +20,9 @@ Three spheres that demonstrates perspective
 ![Shading sphere based on normal vector](/images/normal_shade.png)
 
 Each point on the sphere is shaded based on the vector normal to the surface (pointing outwards)
+
+## Ground is just a humongous sphere in the distance
+
+![Ground is just a humongous sphere in the distance](/images/ground_sphere.png)
+
+We actually see two spheres (the ground is actually a massive sphere far off in the distance) rendered using our new hittable and hittable_list.
