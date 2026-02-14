@@ -32,3 +32,4 @@ We actually see two spheres (the ground is actually a massive sphere far off in 
 No anti-aliasing           |  With anti-aliasing
 :-------------------------:|:-------------------------:
 ![](images/ground_sphere.png)  |  ![](images/aa.png)
+![](images/no_aa_zoom.png)  |  ![](images/aa_zoom.png)
