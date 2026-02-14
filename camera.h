@@ -8,7 +8,7 @@ class camera {
         // Aspect ratio and image dimensions
         double aspect_ratio = 16.0/9.0;
         int image_width = 800;
-
+        int samples_per_pixel = 100;
     
         void render(const hittable& world) {
             initialize();
@@ -18,12 +18,12 @@ class camera {
             for (int i=0; i<image_height; i++) {
                 std::clog << "\rRows remaining: " << (image_height-i) << " " << std::flush;
                 for (int j=0; j<image_width; j++) {
-                    auto pixel_center = pixel00_loc + (i*pixel_dv) + (j*pixel_du);
-                    auto ray_direction = pixel_center - center;
-                    ray r(center, ray_direction);
-
-                    color pixel_color = ray_color(r, world);
-                    write_color(std::cout, pixel_color);
+                    color pixel_color(0,0,0);
+                    for (int sample = 0; sample < samples_per_pixel; sample++) {
+                        ray r = get_ray(j, i);
+                        pixel_color += ray_color(r, world);
+                    }
+                    write_color(std::cout, pixel_samples_scale * pixel_color);
                 }
             }
 
@@ -32,6 +32,7 @@ class camera {
 
     private:
         int image_height;
+        double pixel_samples_scale;
         point3 center;
         point3 pixel00_loc;
         point3 pixel_du;
@@ -42,6 +43,8 @@ class camera {
             image_height = (image_height < 1) ? 1 : image_height;
 
             center = point3(0, 0, 0);
+
+            pixel_samples_scale = 1.0/samples_per_pixel;
 
             // Camera
             auto focal_length = 1.0;
@@ -70,6 +73,18 @@ class camera {
             vec3 unit_direction = unit_vector(r.direction());
             auto a = 0.5*(unit_direction.y() + 1.0);
             return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
+        }
+
+        ray get_ray(int i, int j) const {
+
+            auto offset = sample_square();
+            auto sample_loc = pixel00_loc + ((i + offset.x()) * pixel_du) + ((j + offset.y()) * pixel_dv);
+
+            return ray(center, sample_loc - center);
+        }   
+
+        vec3 sample_square() const {
+            return vec3(random_double() - 0.5, random_double() - 0.5, 0);
         }
 };
 

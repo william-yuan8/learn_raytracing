@@ -26,3 +26,9 @@ Each point on the sphere is shaded based on the vector normal to the surface (po
 ![Ground is just a humongous sphere in the distance](/images/ground_sphere.png)
 
 We actually see two spheres (the ground is actually a massive sphere far off in the distance) rendered using our new hittable and hittable_list.
+
+## Adding some anti-aliasing by setting each pixel color to the average of many samples near the pixel
+
+No anti-aliasing           |  With anti-aliasing
+:-------------------------:|:-------------------------:
+![](images/ground_sphere.png)  |  ![](images/aa.png)

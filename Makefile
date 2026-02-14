@@ -9,3 +9,5 @@ $(TARGET): main.cpp
 
 clean:
 	rm -f $(TARGET)
+
+remake: clean all
