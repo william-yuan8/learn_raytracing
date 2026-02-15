@@ -33,3 +33,11 @@ No anti-aliasing           |  With anti-aliasing
 :-------------------------:|:-------------------------:
 ![](images/ground_sphere.png)  |  ![](images/aa.png)
 ![](images/no_aa_zoom.png)  |  ![](images/aa_zoom.png)
+
+## Matte objects are created by reflecting light in random directions (instead of a single direction which would look glossy)
+
+### The scaling factor below determines how black (0) or how white (1) the surface will look
+
+0.2 scaling         |  0.5 scaling | 0.8 scaling
+:-------------------------:|:-------------------------:
+![](images/diffuse_point2.png)  |  ![](images/diffuse_point5.png) | ![](images/diffuse_point8.png)
