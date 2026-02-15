@@ -47,6 +47,11 @@ class vec3 {
         static vec3 random(double min, double max) {
             return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
         }
+
+        bool near_zero() const {
+            const auto s = 1e-8;
+            return length_squared() < s*s;
+        }
 };
 
 using point3 = vec3;
@@ -105,6 +110,10 @@ inline vec3 random_face_normal(const vec3& normal) {
         return v;
     else
         return -v;
+}
+
+inline vec3 reflect(const vec3& v, const vec3& n) {
+    return v - 2*dot(v, n)*n;
 }
 
 #endif
