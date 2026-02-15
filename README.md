@@ -39,5 +39,5 @@ No anti-aliasing           |  With anti-aliasing
 ### The scaling factor below determines how black (0) or how white (1) the surface will look
 
 0.2 scaling         |  0.5 scaling | 0.8 scaling
-:-------------------------:|:-------------------------:
+:-------------------------:|:-------------------------:|:-------------------------:
 ![](images/diffuse_point2.png)  |  ![](images/diffuse_point5.png) | ![](images/diffuse_point8.png)
